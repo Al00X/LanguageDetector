@@ -4,7 +4,7 @@
 xcuserdata/
 DerivedData/
 .swiftpm
-.swiftpm/configuration/registries.json
-.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.idea
+.vscode
 .netrc
 language-detector-php
