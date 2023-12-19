@@ -20,13 +20,33 @@ class ResourceManager {
     
     static func getResource(name: String) throws -> Subset {
         let configURL = Bundle.module.url(forResource: name, withExtension: "")
-        let json = try Data(contentsOf: configURL!)
-        let data = try JSONDecoder().decode(Subset.self, from: json)
-        print("count1: \(data.frequency.count)")
-        print("count2: \(data.nWords.count)")
-        print("name: \(data.name)")
-        return data
+        let data = try Data(contentsOf: configURL!)
+        let json = try JSONDecoder().decode(Subset.self, from: data)
+        print("count1: \(json.frequency.count)")
+        print("count2: \(json.nWords.count)")
+        print("name: \(json.name)")
+        return json
     }
     
 }
 
+class LanguageDetector {
+    var loadedLangs: [String] = [];
+    var loadedSubsets: [ResourceManager.Subset] = [];
+
+    init(langs: [String]?) {
+        self.addLang(langs: langs ?? []);
+    }
+
+    func addLang(langs: [String]) {
+        for lang in langs {
+            do {
+                let resource = try ResourceManager.getResource(name: lang);
+                self.loadedLangs.append(lang);
+                self.loadedSubsets.append(resource);
+            } catch let error {
+                print("Error loading language resource subset: \(lang)", error);
+            }            
+        }
+    }
+}
