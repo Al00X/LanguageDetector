@@ -1,1 +1,1 @@
-# LanguageDetect
+# LanguageDetector
