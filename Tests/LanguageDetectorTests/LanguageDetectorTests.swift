@@ -1,5 +1,5 @@
-import XCTest
 @testable import LanguageDetector
+import XCTest
 
 final class LanguageDetectorTests: XCTestCase {
     func testGetResourceData() throws {
