@@ -30,7 +30,7 @@ class ResourceManager {
     
 }
 
-class LanguageDetector {
+class Detector {
     var loadedLangs: [String] = [];
     var loadedSubsets: [ResourceManager.Subset] = [];
 
