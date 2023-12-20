@@ -31,4 +31,15 @@ final class LanguageDetectorTests: XCTestCase {
         
         XCTAssertEqual(scores?[0].0, "fa")
     }
+
+    func testEvaluateExperimental() throws {
+        let detector = Detector(langs: ["fa", "en", "ar"])
+        detector.addLang(langs: ["ja", "it"])
+        let scoresEn = detector.evaluate(text: "Hi there fellow adventurer.");
+        let scoresFa = detector.evaluate(text: "سلام ای پهلوان ایرانی!")
+        
+        // These two will fail
+        XCTAssertEqual(scoresEn?[0].0, "en") // it
+        XCTAssertEqual(scoresFa?[0].0, "fa") // ar
+    }
 }

@@ -60,9 +60,10 @@ class Detector {
         if text.count == 0 {
             return nil;
         }
+        let trimmedText = text.replacing(" ", with: "")
         var scores: [(String, Double)] = [];
         for lang in loadedSubsets {
-            let score = self.calculate(subset: lang, chunks: self.chunk(text: text))
+            let score = self.calculate(subset: lang, chunks: self.chunk(text: trimmedText))
             scores.append((lang.name, score));
         }
         return scores.sorted(by: { $0.1 > $1.1 });
