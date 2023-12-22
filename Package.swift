@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "LanguageDetector",
+    name: "language-detector",
     platforms: [
         .macOS(.v13),
     ],
