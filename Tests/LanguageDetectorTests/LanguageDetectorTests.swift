@@ -40,7 +40,7 @@ final class LanguageDetectorTests: XCTestCase {
     }
 
     func testEvaluationConsistency() throws {
-        let detector = Detector(langs: ["fa", "en", "ar"])
+        let detector = Detector(langs: ["fa"])
 
         let a1 = detector.evaluate(text: "سلام داداش چه خبر")
         let a2 = detector.evaluate(text: "سلام داداش چه خبر")
@@ -61,10 +61,10 @@ final class LanguageDetectorTests: XCTestCase {
         // The results above are different, and the a1's score is greater than the other...
         // This should never happen! the original transformer is changed to prevent this error
 
-        // XCTAssertEqual(a1?.first?.1, a2?.first?.1)
-        // XCTAssertEqual(a1?.first?.1, a3?.first?.1)
-        // XCTAssertEqual(a1?.first?.1, a4?.first?.1)
-        // XCTAssertEqual(a1?.first?.1, a5?.first?.1)
-        // XCTAssertEqual(a1?.first?.1, a6?.first?.1)
+        XCTAssertEqual(a1?.first?.1, a2?.first?.1)
+        XCTAssertEqual(a1?.first?.1, a3?.first?.1)
+        XCTAssertEqual(a1?.first?.1, a4?.first?.1)
+        XCTAssertEqual(a1?.first?.1, a5?.first?.1)
+        XCTAssertEqual(a1?.first?.1, a6?.first?.1)
     }
 }

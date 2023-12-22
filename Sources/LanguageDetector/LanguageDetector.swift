@@ -1,5 +1,5 @@
 import Foundation
-
+import Collections;
 
 class Detector {
     var loadedLangs = [String]()
@@ -64,8 +64,8 @@ class Detector {
             return [];
         }
 
-        var chunks = [Int: [String: Int]]();
-        var ngrams = [Int: [String: Double]](); 
+        var chunks = OrderedDictionary<Int, OrderedDictionary<String, Int>>();
+        var ngrams = OrderedDictionary<Int, OrderedDictionary<String, Double>>(); 
         for word in tokens {
             for i in MIN_WORD_LENGTH...MAX_WORD_LENGTH {
                 if chunks[i] == nil {
@@ -93,13 +93,13 @@ class Detector {
             }
         }
 
-        let merged: [String:Double] = (ngrams.reduce(into: [:]) { pre, cur in
+        let merged: OrderedDictionary<String, Double> = ngrams.reduce(into: OrderedDictionary()) { pre, cur in
             for item in cur.value {
                 if item.key == "_" { continue };
                 pre[item.key] = item.value;
             }   
-        })
-        let result = merged.sorted(by: {a,b in a.value > b.value})
+        }
+        let result = merged.sorted(by: {a,b in a.value > b.value && a.key > b.key})
             .map() { $0.key }
 
         return result.count > MAX_NGRAMS ? Array(result[0...MAX_NGRAMS]) : result;
