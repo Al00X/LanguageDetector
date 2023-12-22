@@ -36,18 +36,19 @@ class Detector {
             return nil
         }
         var scores = [(String, Double)]()
+        let tokens = tokenize(text);
         for subset in loadedSubsets {
-            let score = self.calculate(subset: subset, chunks: chunk(text: text))
+            let score = self.calculate(subset: subset, samples: sample(tokens: tokens))
             scores.append((subset.name, score))
         }
         return scores.sorted(by: { $0.1 > $1.1 })
     }
 
-    private func calculate(subset: ResourceManager.Subset, chunks: [String]) -> Double {
+    private func calculate(subset: ResourceManager.Subset, samples: [String]) -> Double {
         // index is accumelated at the start of the loop, so we initiate it as -1
         var index = -1;
         var sum = 0;
-        for chunk in chunks {
+        for chunk in samples {
             index+=1;
             guard let freq = subset.frequency[chunk] else {
                 sum += MAX_NGRAMS
@@ -58,9 +59,7 @@ class Detector {
         return 1.0 - (Double(sum) / Double(MAX_NGRAMS * index));
     }
 
-    public func chunk(text: String) -> [String] {
-        let tokens = tokenize(text);
-
+    private func sample(tokens: [String]) -> [String] {
         guard tokens.count != 0 else {
             return [];
         }
