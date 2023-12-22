@@ -106,8 +106,12 @@ class Detector {
     }
 
     private func tokenize(_ text: String) -> [String] {
-        let transformedText = text.lowercased()
-        // We should separate the string with the following regex
+        var transformedText = text.lowercased()
+        let unicodeRegex = try! Regex("[^\\p{L}\\s]");
+        transformedText.replace(unicodeRegex, with: "");
+        transformedText = transformedText.trimmingCharacters(in: .whitespacesAndNewlines);
+        
+        // We should split the string with the following regex
         // But Negative-Look-Back is not supported on Swift :(
         // let regex = try! Regex(#"[^\p{L}]+(?<![\x27\x60\x{2019}])"#)
          return transformedText.split(separator: " ").map {"_\($0)_"}
