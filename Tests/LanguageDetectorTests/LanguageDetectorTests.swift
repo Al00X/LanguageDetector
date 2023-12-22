@@ -19,32 +19,24 @@ final class LanguageDetectorTests: XCTestCase {
     func testEvaluate() throws {
         let detector = Detector(langs: ["fa", "en", "ar"])
         detector.addLang(["ja", "it"])
-        let scoresEn = detector.evaluate(text: "Hi there fellow adventurer. how are you today?, please go and sit over there.")
-        let scoresFa = detector.evaluate(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!")
-        
-        XCTAssertEqual(scoresEn?.first?.0, "en")
-        XCTAssertEqual(scoresFa?.first?.0, "fa")
+        let a = detector.evaluate(text: "Hi there fellow adventurer. how are you today?, please go and sit over there.")
+        let b = detector.evaluate(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!")
+        let c = detector.evaluate(text: "Hi there fellow adventurer.")
+        let d = detector.evaluate(text: "سلام ای پهلوان ایرانی!")
+        let e = detector.evaluate(text: "سلام داداش");
+        let f = detector.evaluate(text: "Yo ma boi");
+
+        XCTAssertEqual(a?.first?.0, "en")
+        XCTAssertEqual(b?.first?.0, "fa")
+        XCTAssertEqual(c?.first?.0, "en")
+        XCTAssertEqual(d?.first?.0, "fa")
+        XCTAssertEqual(e?.first?.0, "fa")
+        XCTAssertEqual(f?.first?.0, "en")
     }
 
     func testStaticDetect() throws {
         let scores = Detector.detect(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!",langs: ["fa", "en", "ar"])
         
         XCTAssertEqual(scores?.first?.0, "fa")
-    }
-
-    func testEvaluateExperimental() throws {
-        let detector = Detector(langs: ["fa", "en", "ar"])
-        detector.addLang(["ja", "it"])
-        let scoresEn = detector.evaluate(text: "Hi there fellow adventurer.")
-        let scoresFa = detector.evaluate(text: "سلام ای پهلوان ایرانی!")
-        
-        // These two will fail
-        XCTAssertEqual(scoresEn?.first?.0, "en") // it
-        XCTAssertEqual(scoresFa?.first?.0, "fa") // ar
-    }
-
-    func testTokenizer() throws {
-        let detector = Detector(langs: ["fa", "en", "ar"])
-        print(detector.chunk(text: "hi there tokenizer"))
     }
 }

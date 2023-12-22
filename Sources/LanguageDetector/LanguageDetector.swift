@@ -32,23 +32,30 @@ class Detector {
     }
 
     func evaluate(text: String) -> [(String, Double)]? {
-        // guard text.count > 0 else {
-        //     return nil
-        // }
-        // var scores = [(String, Double)]()
-        // for subset in loadedSubsets {
-        //     let score = self.calculate(subset: subset, chunks: chunk(text: text))
-        //     scores.append((subset.name, score))
-        // }
-        // return scores.sorted(by: { $0.1 > $1.1 })
-        return [];
+        guard text.count > 0 else {
+            return nil
+        }
+        var scores = [(String, Double)]()
+        for subset in loadedSubsets {
+            let score = self.calculate(subset: subset, chunks: chunk(text: text))
+            scores.append((subset.name, score))
+        }
+        return scores.sorted(by: { $0.1 > $1.1 })
     }
 
     private func calculate(subset: ResourceManager.Subset, chunks: [String]) -> Double {
-        let freqSum = chunks.reduce(0) { $0 + (subset.frequency[$1] ?? 0) }
-        // let nWordsSum = subset.nWords.reduce(0) { $0 + $1 }
-        // return Double(freqSum) / Double(nWordsSum)
-        return 0.0;
+        // index is accumelated at the start of the loop, so we initiate it as -1
+        var index = -1;
+        var sum = 0;
+        for chunk in chunks {
+            index+=1;
+            guard let freq = subset.frequency[chunk] else {
+                sum += MAX_NGRAMS
+                continue;
+            }
+            sum += abs(index - freq)
+        }
+        return 1.0 - (Double(sum) / Double(MAX_NGRAMS * index));
     }
 
     public func chunk(text: String) -> [String] {
