@@ -16,12 +16,10 @@ class ResourceManager {
     struct Subset: Codable {
         var frequency: [String: Int]
         var name: String
-        var nWords: [Int]
         
         enum CodingKeys: String, CodingKey {
-            case frequency = "freq"
+            case frequency
             case name
-            case nWords = "n_words"
         }
     }
     

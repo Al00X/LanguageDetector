@@ -31,35 +31,51 @@ class Detector {
     }
 
     func evaluate(text: String) -> [(String, Double)]? {
-        guard text.count > 0 else {
-            return nil
-        }
-        let trimmedText = text.trimmingCharacters(in: .whitespaces)
-        var scores = [(String, Double)]()
-        for subset in loadedSubsets {
-            let score = self.calculate(subset: subset, chunks: chunk(text: trimmedText))
-            scores.append((subset.name, score))
-        }
-        return scores.sorted(by: { $0.1 > $1.1 })
+        // guard text.count > 0 else {
+        //     return nil
+        // }
+        // var scores = [(String, Double)]()
+        // for subset in loadedSubsets {
+        //     let score = self.calculate(subset: subset, chunks: chunk(text: text))
+        //     scores.append((subset.name, score))
+        // }
+        // return scores.sorted(by: { $0.1 > $1.1 })
+        return [];
     }
 
     private func calculate(subset: ResourceManager.Subset, chunks: [String]) -> Double {
         let freqSum = chunks.reduce(0) { $0 + (subset.frequency[$1] ?? 0) }
-        let nWordsSum = subset.nWords.reduce(0) { $0 + $1 }
-        return Double(freqSum) / Double(nWordsSum)
+        // let nWordsSum = subset.nWords.reduce(0) { $0 + $1 }
+        // return Double(freqSum) / Double(nWordsSum)
+        return 0.0;
     }
 
-    private func chunk(text: String) -> [String] {
-        var chunks = [String]()
-        
-        for i in 0..<3 {
-            for j in 0..<text.count {
-                if (text.count > j + i) {
-                    chunks.append(text[(j)...(j+i)])
+    public func chunk(text: String) -> [Int: [String: Int]] {
+        let tokens = tokenize(text)
+        var chunks = [Int: [String: Int]]()
+        for word in tokens {
+            for i in 1...3 {
+                if chunks[i] == nil {
+                    chunks[i] = [:];
+                }
+                for j in 0..<word.count {
+                    guard i + j - 1 < word.count else {
+                        break;
+                    }
+                    let part = word[(j)..<(j+i)];
+                    let currentValue = chunks[i]![part] ?? 0;
+                    chunks[i]![part] = currentValue+1;
                 }
             }
         }
 
         return chunks
+    }
+
+    private func tokenize(_ text: String) -> [String] {
+        let transformedText = text.lowercased()
+        // Negative look back is not supported on Swift :(
+        // let regex = try! Regex(#"[^\p{L}]+(?<![\x27\x60\x{2019}])"#)
+         return transformedText.split(separator: " ").map {"_\($0)_"}
     }
 }
