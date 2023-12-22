@@ -44,7 +44,7 @@ final class LanguageDetectorTests: XCTestCase {
 
         let a1 = detector.evaluate(text: "سلام داداش چه خبر")
         let a2 = detector.evaluate(text: "سلام داداش چه خبر")
-        // scores are not equal, the algorithm has no consistency
+        // Used OrderedDictionary to fix the inconsistency problem
 
         XCTAssertEqual(a1?.first?.1, a2?.first?.1)
     }
