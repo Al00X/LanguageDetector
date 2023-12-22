@@ -45,7 +45,7 @@ class Detector {
     }
 
     private func calculate(subset: ResourceManager.Subset, samples: [String]) -> Double {
-        // index is accumelated at the start of the loop, so we initiate it as -1
+        // index is accumulated at the start of the loop, so we initiate it as -1
         var index = -1;
         var sum = 0;
         for chunk in samples {
