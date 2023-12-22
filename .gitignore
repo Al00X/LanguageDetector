@@ -8,3 +8,4 @@ DerivedData/
 .vscode
 .netrc
 language-detector-php
+Package.resolved
