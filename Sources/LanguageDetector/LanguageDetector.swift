@@ -1,12 +1,13 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
-
 import Foundation
 
 
 class Detector {
     var loadedLangs = [String]()
     var loadedSubsets = [ResourceManager.Subset]()
+
+    let MIN_WORD_LENGTH = 1;
+    let MAX_WORD_LENGTH = 3;
+    let MAX_NGRAMS = 310;
 
     static func detect(text: String, langs: [String]) -> [(String, Double)]? {
         Detector(langs: langs).evaluate(text: text)
@@ -50,11 +51,17 @@ class Detector {
         return 0.0;
     }
 
-    public func chunk(text: String) -> [Int: [String: Int]] {
-        let tokens = tokenize(text)
-        var chunks = [Int: [String: Int]]()
+    public func chunk(text: String) -> [String] {
+        let tokens = tokenize(text);
+
+        guard tokens.count != 0 else {
+            return [];
+        }
+
+        var chunks = [Int: [String: Int]]();
+        var ngrams = [Int: [String: Double]](); 
         for word in tokens {
-            for i in 1...3 {
+            for i in MIN_WORD_LENGTH...MAX_WORD_LENGTH {
                 if chunks[i] == nil {
                     chunks[i] = [:];
                 }
@@ -69,7 +76,27 @@ class Detector {
             }
         }
 
-        return chunks
+        for chunk in chunks {
+            let sum = chunk.value.reduce(0) { $0 + $1.value }
+            
+            if (ngrams[chunk.key] == nil) {
+                ngrams[chunk.key] = [:];
+            }
+            for item in chunk.value {
+                ngrams[chunk.key]![item.key] = Double(item.value) / Double(sum);
+            }
+        }
+
+        let merged: [String:Double] = (ngrams.reduce(into: [:]) { pre, cur in
+            for item in cur.value {
+                if item.key == "_" { continue };
+                pre[item.key] = item.value;
+            }   
+        })
+        let result = merged.sorted(by: {a,b in a.value > b.value})
+            .map() { $0.key }
+
+        return result.count > MAX_NGRAMS ? Array(result[0...MAX_NGRAMS]) : result;
     }
 
     private func tokenize(_ text: String) -> [String] {
