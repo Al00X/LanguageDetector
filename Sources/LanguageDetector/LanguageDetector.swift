@@ -9,8 +9,8 @@ public class Detector {
     let MAX_WORD_LENGTH = 3
     let MAX_NGRAMS = 310
 
-    public static func detect(text: String, languages: [String]) throws -> [(String, Double)]? {
-        try Detector(langs: languages).evaluate(text: text)
+    public static func detect(text: String, languages: [String]) throws -> String? {
+        try Detector(langs: languages).evaluate(text: text)?.first?.0
     }
     
     private init() { }
@@ -29,7 +29,7 @@ public class Detector {
         }
     }
 
-    func evaluate(text: String) -> [(String, Double)]? {
+    public func evaluate(text: String) -> [(String, Double)]? {
         guard text.count > 0 else {
             return nil
         }
