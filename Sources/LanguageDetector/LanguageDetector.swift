@@ -12,12 +12,14 @@ public class Detector {
     public static func detect(text: String, languages: [String]) throws -> [(String, Double)]? {
         try Detector(langs: languages).evaluate(text: text)
     }
-
+    
+    private init() { }
+    
     public init(langs: [String] = []) throws {
-        try self.addLang(langs)
+        try self.addLanguages(langs)
     }
 
-    public func addLang(_ langs: [String]) throws {
+    public func addLanguages(_ langs: [String]) throws {
         for lang in langs {
             if !self.loadedLangs.contains(lang) {
                 let resource = try ResourceManager.default.getResource(name: lang)

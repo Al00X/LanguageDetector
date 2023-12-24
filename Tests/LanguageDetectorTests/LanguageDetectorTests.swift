@@ -10,7 +10,7 @@ final class LanguageDetectorTests: XCTestCase {
     
     func testCreate() throws {
         let detector = try Detector(langs: ["fa", "en", "ar"])
-        try detector.addLang(["fr", "ja"])
+        try detector.addLanguages(["fr", "ja"])
         
         XCTAssertEqual(detector.loadedSubsets.count, 5)
     }
