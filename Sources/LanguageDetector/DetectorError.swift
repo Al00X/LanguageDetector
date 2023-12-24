@@ -1,6 +1,6 @@
 import Foundation
 
-enum DetectorError: String, Error {
-    case resourceNotFound
+enum DetectorError: Error {
+    case resourceNotFound(language: String)
 }
 
