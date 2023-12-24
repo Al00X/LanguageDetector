@@ -21,7 +21,7 @@ class ResourceManager {
             return loadedResources[name]!
         }
         guard let configURL = Bundle.module.url(forResource: name, withExtension: "") else {
-            throw DetectorError.resourceNotFound
+            throw DetectorError.resourceNotFound(language: name)
         }
         let data = try Data(contentsOf: configURL)
         let subset = try JSONDecoder().decode(Subset.self, from: data)
