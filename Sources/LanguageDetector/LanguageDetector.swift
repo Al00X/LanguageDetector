@@ -10,7 +10,10 @@ public class Detector {
     let MAX_NGRAMS = 310
 
     public static func detect(text: String, languages: [String]) throws -> String? {
-        try Detector(langs: languages).evaluate(text: text)?.first?.0
+        guard !languages.isEmpty else {
+            throw DetectorError.emptyLanguageList
+        }
+        return try Detector(langs: languages).evaluate(text: text)?.first?.0
     }
     
     private init() { }
@@ -29,7 +32,10 @@ public class Detector {
         }
     }
 
-    public func evaluate(text: String) -> [(String, Double)]? {
+    public func evaluate(text: String) throws -> [(String, Double)]? {
+        guard !self.loadedLangs.isEmpty else {
+            throw DetectorError.emptyLanguageList
+        }
         guard text.count > 0 else {
             return nil
         }
