@@ -1,7 +1,7 @@
 import Foundation
 import Collections
 
-class Detector {
+public class Detector {
     var loadedLangs = [String]()
     var loadedSubsets = [ResourceManager.Subset]()
 
