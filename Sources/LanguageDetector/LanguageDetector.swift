@@ -2,7 +2,7 @@ import Foundation
 import Collections
 
 public class LanguageDetector {
-    var loadedLangs = [String]()
+    var loadedLanguages = [String]()
     var loadedSubsets = [ResourceManager.Subset]()
 
     let MIN_WORD_LENGTH = 1
@@ -13,27 +13,27 @@ public class LanguageDetector {
         guard !languages.isEmpty else {
             throw LanguageDetectorError.emptyLanguageList
         }
-        return try LanguageDetector(langs: languages).evaluate(text: text)?.first?.0
+        return try LanguageDetector(languages: languages).evaluate(text: text)?.first?.0
     }
     
     private init() { }
     
-    public init(langs: [String] = []) throws {
-        try self.addLanguages(langs)
+    public init(languages: [String] = []) throws {
+        try self.addLanguages(languages)
     }
 
-    public func addLanguages(_ langs: [String]) throws {
-        for lang in langs {
-            if !self.loadedLangs.contains(lang) {
+    public func addLanguages(_ languages: [String]) throws {
+        for lang in languages {
+            if !self.loadedLanguages.contains(lang) {
                 let resource = try ResourceManager.default.getResource(name: lang)
-                self.loadedLangs.append(lang)
+                self.loadedLanguages.append(lang)
                 self.loadedSubsets.append(resource)
             }
         }
     }
 
     public func evaluate(text: String) throws -> [(String, Double)]? {
-        guard !self.loadedLangs.isEmpty else {
+        guard !self.loadedLanguages.isEmpty else {
             throw LanguageDetectorError.emptyLanguageList
         }
         guard text.count > 0 else {

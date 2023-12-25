@@ -9,14 +9,14 @@ final class LanguageDetectorTests: XCTestCase {
     }
     
     func testCreate() throws {
-        let detector = try LanguageDetector(langs: ["fa", "en", "ar"])
+        let detector = try LanguageDetector(languages: ["fa", "en", "ar"])
         try detector.addLanguages(["fr", "ja"])
         
         XCTAssertEqual(detector.loadedSubsets.count, 5)
     }
     
     func testEvaluate() throws {
-        let detector = try LanguageDetector(langs: ["fa", "en", "ar", "ja", "it"])
+        let detector = try LanguageDetector(languages: ["fa", "en", "ar", "ja", "it"])
         let a = try detector.evaluate(text: "Hi there fellow adventurer. how are you today?, please go and sit over there.")
         let b = try detector.evaluate(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!")
         let c = try detector.evaluate(text: "Hi there fellow adventurer.")
@@ -39,7 +39,7 @@ final class LanguageDetectorTests: XCTestCase {
     }
     
     func testEvaluationConsistency() throws {
-        let detector = try LanguageDetector(langs: ["fa"])
+        let detector = try LanguageDetector(languages: ["fa"])
         
         let a1 = try detector.evaluate(text: "سلام داداش چه خبر")
         let a2 = try detector.evaluate(text: "سلام داداش چه خبر")
@@ -49,7 +49,7 @@ final class LanguageDetectorTests: XCTestCase {
     }
     
     func testEvaluateVariations() throws {
-        let detector = try LanguageDetector(langs: ["fa", "en", "ar"])
+        let detector = try LanguageDetector(languages: ["fa", "en", "ar"])
         
         let a1 = try detector.evaluate(text: "سلام داداش چه خبر")
         let a2 = try detector.evaluate(text: "سلام داداش، چه خبر؟")

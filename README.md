@@ -29,6 +29,22 @@ let package = Package(
   ]
 )
 ```
+
+---
+## Usage
+
+You and either instantiate the class or use it statically.
+
+### Instance Use
+```swift
+
+let detector = LanguageDetector(["en", "it", "fr", "ar"]);
+
+// add more languages
+detector.addLanguage
+
+```
+
 ---
 ## Supported languages
 The library currently supports 110 languages. You can see the list of the languages [here](Sources/LanguageDetector/Resources/subsets).
