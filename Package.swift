@@ -7,9 +7,9 @@ let package = Package(
     name: "language-detector",
     platforms: [
         .macOS(.v13),
-        .iOS(.v12),
-        .tvOS(.v12),
-        .watchOS(.v4)
+        .iOS(.v16),
+        .tvOS(.v16),
+        .watchOS(.v5)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
