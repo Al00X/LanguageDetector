@@ -1,6 +1,6 @@
 import Foundation
 
-enum DetectorError: Error {
+public enum LanguageDetectorError: Error {
     case emptyLanguageList
     case resourceNotFound(language: String)
 }

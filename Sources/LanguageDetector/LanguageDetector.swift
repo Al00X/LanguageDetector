@@ -1,7 +1,7 @@
 import Foundation
 import Collections
 
-public class Detector {
+public class LanguageDetector {
     var loadedLangs = [String]()
     var loadedSubsets = [ResourceManager.Subset]()
 
@@ -11,9 +11,9 @@ public class Detector {
 
     public static func detect(text: String, languages: [String]) throws -> String? {
         guard !languages.isEmpty else {
-            throw DetectorError.emptyLanguageList
+            throw LanguageDetectorError.emptyLanguageList
         }
-        return try Detector(langs: languages).evaluate(text: text)?.first?.0
+        return try LanguageDetector(langs: languages).evaluate(text: text)?.first?.0
     }
     
     private init() { }
@@ -34,7 +34,7 @@ public class Detector {
 
     public func evaluate(text: String) throws -> [(String, Double)]? {
         guard !self.loadedLangs.isEmpty else {
-            throw DetectorError.emptyLanguageList
+            throw LanguageDetectorError.emptyLanguageList
         }
         guard text.count > 0 else {
             return nil

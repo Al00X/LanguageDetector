@@ -9,14 +9,14 @@ final class LanguageDetectorTests: XCTestCase {
     }
     
     func testCreate() throws {
-        let detector = try Detector(langs: ["fa", "en", "ar"])
+        let detector = try LanguageDetector(langs: ["fa", "en", "ar"])
         try detector.addLanguages(["fr", "ja"])
         
         XCTAssertEqual(detector.loadedSubsets.count, 5)
     }
     
     func testEvaluate() throws {
-        let detector = try Detector(langs: ["fa", "en", "ar", "ja", "it"])
+        let detector = try LanguageDetector(langs: ["fa", "en", "ar", "ja", "it"])
         let a = try detector.evaluate(text: "Hi there fellow adventurer. how are you today?, please go and sit over there.")
         let b = try detector.evaluate(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!")
         let c = try detector.evaluate(text: "Hi there fellow adventurer.")
@@ -33,13 +33,13 @@ final class LanguageDetectorTests: XCTestCase {
     }
     
     func testStaticDetect() throws {
-        let lang = try Detector.detect(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!",languages: ["fa", "en", "ar"])
+        let lang = try LanguageDetector.detect(text: "سلام ای پهلوان ایرانی، شنیده ام که کیفت کوک است!",languages: ["fa", "en", "ar"])
         
         XCTAssertEqual(lang, "fa")
     }
     
     func testEvaluationConsistency() throws {
-        let detector = try Detector(langs: ["fa"])
+        let detector = try LanguageDetector(langs: ["fa"])
         
         let a1 = try detector.evaluate(text: "سلام داداش چه خبر")
         let a2 = try detector.evaluate(text: "سلام داداش چه خبر")
@@ -49,7 +49,7 @@ final class LanguageDetectorTests: XCTestCase {
     }
     
     func testEvaluateVariations() throws {
-        let detector = try Detector(langs: ["fa", "en", "ar"])
+        let detector = try LanguageDetector(langs: ["fa", "en", "ar"])
         
         let a1 = try detector.evaluate(text: "سلام داداش چه خبر")
         let a2 = try detector.evaluate(text: "سلام داداش، چه خبر؟")
@@ -57,7 +57,7 @@ final class LanguageDetectorTests: XCTestCase {
         let a4 = try detector.evaluate(text: "سلام داداش چه خبر؟")
         let a5 = try detector.evaluate(text: "سلام داداش چه خبر؟ <3   ")
         let a6 = try detector.evaluate(text: "سلام داداش چه خبر؟ 09123456789")
-        // The results above are different, and the a1's score is greater than the other...
+        // The results above are different, and the a1's score is greater than others...
         // This should never happen! the original transformer is changed to prevent this error
         
         XCTAssertEqual(a1?.first?.1, a2?.first?.1)
