@@ -38,10 +38,25 @@ You and either instantiate the class or use it statically.
 ### Instance Use
 ```swift
 
-let detector = LanguageDetector(["en", "it", "fr", "ar"]);
+let detector = LanguageDetector(["en", "it", "fr", "ar"])
 
 // add more languages
-detector.addLanguage
+
+detector.addLanguages(languages: ["es", "de"])
+
+// detect
+
+let result = detector.evaluate(text: "Hi there!") // returns [(String, Int)]
+
+return result.first.0 // en
+
+```
+
+### Static Use
+```swift
+let result = LanguageDetector.detect(text: "I'm on static", languages: ["en", "fr", "es"]) // returns String
+
+return result // en
 
 ```
 
