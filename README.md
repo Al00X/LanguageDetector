@@ -46,7 +46,7 @@ detector.addLanguages(languages: ["es", "de"])
 
 // detect
 
-let result = detector.evaluate(text: "Hi there!") // returns [(String, Int)]
+let result = detector.evaluate(text: "Hi there!") // [(String, Int)]
 
 return result.first.0 // en
 
@@ -54,7 +54,7 @@ return result.first.0 // en
 
 ### Static Use
 ```swift
-let result = LanguageDetector.detect(text: "I'm on static", languages: ["en", "fr", "es"]) // returns String
+let result = LanguageDetector.detect(text: "I'm on static", languages: ["en", "fr", "es"]) // String
 
 return result // en
 
