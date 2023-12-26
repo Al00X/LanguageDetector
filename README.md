@@ -38,7 +38,7 @@ You and either instantiate the class or use it statically.
 ### Instance Use
 ```swift
 
-let detector = LanguageDetector(["en", "it", "fr", "ar"])
+let detector = LanguageDetector(languages: ["en", "it", "fr", "ar"])
 
 // add more languages
 
