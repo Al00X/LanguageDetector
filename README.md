@@ -30,7 +30,7 @@ let package = Package(
 ---
 ## Usage
 
-You and either instantiate the class or use it statically.
+You can either instantiate the class or use it statically.
 
 ### Instance Use
 ```swift
@@ -38,11 +38,9 @@ You and either instantiate the class or use it statically.
 let detector = LanguageDetector(languages: ["en", "it", "fr", "ar"])
 
 // add more languages
-
 detector.addLanguages(languages: ["es", "de"])
 
 // detect
-
 let result = detector.evaluate(text: "Hi there!") // [(String, Int)]
 
 return result.first.0 // en
